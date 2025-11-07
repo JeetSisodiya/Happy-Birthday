@@ -99,7 +99,7 @@ body::before {
   opacity: 0.8;
 }
 
-/* Styling for the new theme buttons */
+
 .theme-button {
   background: rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 154, 158, 0.5);

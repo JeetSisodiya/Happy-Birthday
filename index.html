@@ -1,0 +1,61 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Vanshita! ✨</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    
+    
+    
+</head>
+<body class="font-quicksand">
+
+    <canvas id="particle-canvas" class="fixed top-0 left-0 w-full h-full"></canvas>
+
+    <main class="relative z-10 flex items-center justify-center min-h-screen p-4">
+        
+        <div class="birthday-card w-full max-w-lg p-8 md:p-12 text-center text-gray-800">
+            
+            <h2 class="text-xl font-semibold text-pink-500 uppercase tracking-widest mb-2">
+                Sending You Love! sister
+            </h2>
+            
+            <h1 class="font-pacifico text-6xl md:text-7xl font-bold my-4 bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-300 text-transparent bg-clip-text">
+                Vanshita!
+            </h1>
+            
+            <p id="wish-text" class="mt-4 mb-8 min-h-[6em] flex items-center justify-center px-4">
+                Wishing you a day as sparkling as your spirit and a year filled with enchanting moments and sweet dreams!
+            </p>
+            
+            <button id="wish-button" class="flex items-center justify-center mx-auto space-x-2">
+                <span>Make a Magical Wish!</span> <span class="text-2xl">✨</span>
+            </button>
+
+            <!-- New Upgraded Feature: Theme Buttons -->
+            <div id="theme-selector" class="hidden mt-8 text-center transition-all duration-500 ease-in-out">
+                <h3 class="text-lg font-semibold text-pink-500 mb-4">
+                    Or, pick a theme for your next wish!
+                </h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="theme-button" data-theme="adventure">Adventure 🚀</button>
+                    <button class="theme-button" data-theme="dreams">Dreams 🌙</button>
+                    <button class="theme-button" data-theme="happiness">Happiness 😊</button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer class="absolute bottom-4 left-1/2 -translate-x-1/2 text-gray-500 text-sm z-10 font-quicksand">
+        Made with much ❤️ by Jerry
+    </footer>
+    <script src="/script.js"></script>
+</body>
+</html>

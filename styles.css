@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap");
+.font-pacifico {
+  font-family: "Pacifico", cursive;
+}
+.font-quicksand {
+  font-family: "Quicksand", sans-serif;
+}
+
+body {
+  font-family: "Quicksand", sans-serif;
+  background: linear-gradient(135deg, #fce4ec 0%, #e0f7fa 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle fill="%23fff" fill-opacity="0.2" cx="10" cy="10" r="1.5"/><circle fill="%23fff" fill-opacity="0.1" cx="2" cy="15" r="1"/><circle fill="%23fff" fill-opacity="0.15" cx="18" cy="5" r="1.2"/></svg>');
+  background-repeat: repeat;
+  animation: sparkleMove 60s linear infinite;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+@keyframes sparkleMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200px -200px;
+  }
+}
+
+.birthday-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.birthday-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23ffd1dc" fill-opacity="0.3" d="M10 3.2C8.7 1.9 6.7 1.9 5.4 3.2L3.2 5.4C1.9 6.7 1.9 8.7 3.2 10L10 16.8L16.8 10C18.1 8.7 18.1 6.7 16.8 5.4L14.6 3.2C13.3 1.9 11.3 1.9 10 3.2Z"/></svg>');
+  background-size: 30px 30px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#wish-text {
+  color: #4a5568;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  transition: all 0.5s ease-in-out;
+}
+
+#wish-button {
+  background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.8rem 2.5rem;
+  border-radius: 9999px;
+  box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+  transition: all 0.3s ease-in-out;
+  transform: scale(1);
+  position: relative;
+  overflow: hidden;
+}
+
+#wish-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 25px rgba(255, 154, 158, 0.6);
+}
+#wish-button:active {
+  transform: scale(0.98);
+}
+#wish-button:disabled {
+  background: linear-gradient(45deg, #ccc 0%, #e0e0e0 100%);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#particle-canvas {
+  z-index: 0;
+  opacity: 0.8;
+}
+
+/* Styling for the new theme buttons */
+.theme-button {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 154, 158, 0.5);
+  color: #c91876; /* Darker pink for readability */
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(214, 51, 132, 0.1);
+}
+.theme-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(214, 51, 132, 0.2);
+}
+.theme-button:disabled {
+  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: not-allowed;
+  transform: none;
+}

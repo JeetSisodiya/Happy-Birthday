@@ -226,3 +226,4 @@
         resizeCanvas();
         initParticles();
         animateParticles();
+ 

@@ -311,6 +311,9 @@
         relightCandlesBtn.classList.remove('hidden');
         setCakeFaceExpression('happy');
 
+        // Level Unlock Milestone: Unlocks Level 2 (Birthday Hug)
+        unlockSectionLevel(1);
+
         // Celebrate with soft rose & gold petals, then smoothly dim & blur into the Emotional Story Sequence!
         spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 45);
         setTimeout(() => {
@@ -648,8 +651,8 @@
 
     document.getElementById('cinemaOpenKeepsakesBtn').addEventListener('click', () => {
       closeEmotionalCinema();
-      const adv = document.getElementById('adventureSection');
-      if (adv) adv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      unlockSectionLevel(1);
+      goToSectionPage(1);
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.5, 'petals', 40);
     });
 
@@ -833,6 +836,8 @@
         [659.25, 783.99, 1046.50].forEach((n, i) => setTimeout(() => playCelestaNote(n, 1.2, 0.2), i * 110));
         spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 30);
         showStickerToast(`Adventure Stamped: ${dest.badge}! 🗺️✈️`, '🧭');
+        // Level Unlock Milestone: Unlocks Level 7 (Star Wish & Scratch Card)
+        unlockSectionLevel(6);
         compassSpinning = false;
       }, 1050);
     }
@@ -927,6 +932,8 @@
       foilRevealed = true;
       sCtx.clearRect(0, 0, scratchCanvas.width, scratchCanvas.height);
       scratchCanvas.style.pointerEvents = 'none';
+      // Level Unlock Milestone: Unlocks Level 8 (Sunshine Vinyl Record)
+      unlockSectionLevel(7);
       playCelestaNote(880.0, 1.2, 0.22);
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.5, 'stars', 30);
       showStickerToast('Secret birthday note revealed! 💖', '✨');
@@ -969,6 +976,8 @@
       const fb = document.getElementById('origamiLaunchFeedback');
       if (fb) fb.classList.remove('hidden');
 
+      // Level Unlock Milestone: Unlocks Level 8 (Sunshine Vinyl Record)
+      unlockSectionLevel(7);
       playCelestaNote(880, 1.2, 0.2);
       setTimeout(() => playCelestaNote(1046.50, 1.2, 0.2), 120);
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'stars', 35);
@@ -1014,6 +1023,8 @@
 
     function startVinylPlayback(trackIndex = null) {
       ensureAudio();
+      // Level Unlock Milestone: Unlocks Level 9 (Magical Birthday Capsule Machine)
+      unlockSectionLevel(8);
       if (trackIndex !== null) {
         activeVinylTrackIdx = trackIndex;
         vinylNoteIdx = 0;
@@ -1299,6 +1310,8 @@
 
     function pickFlower(flower) {
       ensureAudio();
+      // Level Unlock Milestone: Unlocks Level 5 (Robin's Storybook)
+      unlockSectionLevel(4);
       playCelestaNote(flower.note, 1.0, 0.2);
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 20);
 
@@ -1322,6 +1335,8 @@
 
     function bloomAllBouquet() {
       ensureAudio();
+      // Level Unlock Milestone: Unlocks Level 5 (Robin's Storybook)
+      unlockSectionLevel(4);
       FLOWERS_DATA.forEach(f => bouquetState.inVase.add(f.id));
 
       // Musical chime arpeggio through all 6 flowers
@@ -1652,6 +1667,10 @@
 
     function triggerSingleHugPulse(clientX, clientY) {
       totalHugsSent++;
+      if (totalHugsSent >= 1) {
+        // Level Unlock Milestone: Unlocks Level 3 (Sweet Treat Arcade)
+        unlockSectionLevel(2);
+      }
       hugCountBadge.textContent = `Hug Sent (${totalHugsSent} ♡)`;
       hugCounterSubtext.innerHTML = `✨ Wrapped <span class="font-bold text-pink-600">${appState.recipient}</span> in ${totalHugsSent} warm birthday hug${totalHugsSent > 1 ? 's' : ''} from <span class="font-bold text-pink-600">${appState.sender}</span>! ✨`;
       // Warm two-note heartbeat thump-thump chime
@@ -1946,6 +1965,8 @@
 
     function unboxBirthdayGift() {
       ensureAudio();
+      // Level Unlock Milestone: Unlocks Level 4 (Bouquet Blossom Garden)
+      unlockSectionLevel(3);
       const giftBoxStage = document.getElementById('giftBoxStage');
       const unwrappedStage = document.getElementById('unwrappedGiftStage');
       const lidGroup = document.getElementById('giftBoxLidGroup');
@@ -2452,6 +2473,8 @@
     }
 
     function triggerArcadeVictory() {
+      // Level Unlock Milestone: Unlocks Level 4 (Bouquet Blossom Garden)
+      unlockSectionLevel(3);
       openVictoryGiftModal();
     }
 
@@ -2823,16 +2846,136 @@
       }
     } catch (e) {}
 
+    // ==========================================================
+    // LEVEL-WISE NAVBAR & SECTION UNLOCK ENGINE
+    // Only one stage is unlocked initially (Level 1: Cake & Candles).
+    // Subsequent stages unlock sequentially as Robin completes milestones!
+    // ==========================================================
+    let maxUnlockedSectionIdx = 0;
+    try {
+      const savedUnlocked = localStorage.getItem('birthday_unlocked_level');
+      if (savedUnlocked !== null && !isNaN(parseInt(savedUnlocked, 10))) {
+        maxUnlockedSectionIdx = Math.max(0, Math.min(SECTION_PAGES.length - 1, parseInt(savedUnlocked, 10)));
+      }
+    } catch (e) {}
+
+    // Sound effect: Soft locked thud
+    function playLockedSound() {
+      if (appState.cinemaMuted) return;
+      try {
+        const ctx = ensureAudio();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(70, now + 0.18);
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.19);
+      } catch (e) {}
+    }
+
+    // Sound effect: Joyful ascending unlock fanfare
+    function playLevelUnlockFanfare() {
+      if (appState.cinemaMuted) return;
+      try {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, idx) => {
+          setTimeout(() => {
+            playCelestaNote(freq, 1.3, 0.18);
+          }, idx * 80);
+        });
+      } catch (e) {}
+    }
+
+    // Core Unlock Handler: Persists and triggers unlock fanfare/animation
+    function unlockSectionLevel(targetIdx, announce = true) {
+      if (typeof targetIdx !== 'number' || isNaN(targetIdx)) return false;
+      if (targetIdx <= maxUnlockedSectionIdx || targetIdx >= SECTION_PAGES.length) return false;
+
+      maxUnlockedSectionIdx = targetIdx;
+      try {
+        localStorage.setItem('birthday_unlocked_level', String(maxUnlockedSectionIdx));
+      } catch (e) {}
+
+      updateNavLevelLockUI(targetIdx);
+
+      if (announce) {
+        playLevelUnlockFanfare();
+        const unlockedPage = SECTION_PAGES[targetIdx];
+        const name = unlockedPage ? `${unlockedPage.emoji} ${unlockedPage.short}` : `Level ${targetIdx + 1}`;
+        showStickerToast(`🎉 Level ${targetIdx + 1} Unlocked: ${name}!`, '✨');
+        spawnRoomBurst(window.innerWidth * 0.5, 120, 'stars', 25);
+      }
+      return true;
+    }
+
+    // Update Nav Pills and dots with lock icons and styling
+    function updateNavLevelLockUI(justUnlockedIdx = -1) {
+      document.querySelectorAll('.nav-jump-btn').forEach((btn, idx) => {
+        const targetId = btn.getAttribute('data-target');
+        const pageIdx = SECTION_PAGES.findIndex(p => p.id === targetId);
+        const resolvedIdx = pageIdx !== -1 ? pageIdx : idx;
+        const page = SECTION_PAGES[resolvedIdx];
+        let badge = btn.querySelector('.nav-level-lock-badge');
+
+        if (resolvedIdx > maxUnlockedSectionIdx) {
+          btn.classList.add('is-locked');
+          btn.setAttribute('aria-disabled', 'true');
+          if (page) btn.title = `🔒 Level ${resolvedIdx + 1}: ${page.title} (Locked - Complete Level ${resolvedIdx} first)`;
+          if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'nav-level-lock-badge';
+            badge.textContent = '🔒';
+            btn.appendChild(badge);
+          }
+        } else {
+          btn.classList.remove('is-locked');
+          btn.removeAttribute('aria-disabled');
+          if (page) btn.title = `Level ${resolvedIdx + 1}: ${page.title}`;
+          if (badge) {
+            badge.remove();
+          }
+          if (justUnlockedIdx === resolvedIdx) {
+            btn.classList.remove('pill-just-unlocked');
+            void btn.offsetWidth;
+            btn.classList.add('pill-just-unlocked');
+            setTimeout(() => btn.classList.remove('pill-just-unlocked'), 900);
+          }
+        }
+      });
+
+      updateSectionDots();
+    }
+
     function updateSectionDots() {
       document.querySelectorAll('.section-dots-container').forEach(container => {
         container.innerHTML = '';
         SECTION_PAGES.forEach((page, idx) => {
           const dot = document.createElement('button');
           dot.type = 'button';
-          dot.className = 'section-nav-dot' + (idx === activeSectionIdx ? ' active-dot' : '');
-          dot.title = `Go to Page ${idx + 1}: ${page.emoji} ${page.title}`;
+          const isLocked = idx > maxUnlockedSectionIdx;
+          dot.className = 'section-nav-dot' +
+            (idx === activeSectionIdx ? ' active-dot' : '') +
+            (isLocked ? ' is-dot-locked' : '');
+          dot.title = isLocked
+            ? `🔒 Level ${idx + 1}: ${page.title} (Locked)`
+            : `Go to Page ${idx + 1}: ${page.emoji} ${page.title}`;
           dot.addEventListener('click', (e) => {
             e.stopPropagation();
+            if (idx > maxUnlockedSectionIdx) {
+              playLockedSound();
+              showStickerToast(`🔒 Level ${idx + 1} (${page.short}) is locked! Complete Level ${idx} first ✨`, '🔒');
+              return;
+            }
             goToSectionPage(idx);
           });
           container.appendChild(dot);
@@ -2843,6 +2986,11 @@
     function goToSectionPage(targetIdx, playSound = true, smoothScroll = true) {
       if (targetIdx < 0) targetIdx = 0;
       if (targetIdx >= SECTION_PAGES.length) targetIdx = SECTION_PAGES.length - 1;
+
+      // Restrict navigation to unlocked levels only
+      if (targetIdx > maxUnlockedSectionIdx) {
+        targetIdx = maxUnlockedSectionIdx;
+      }
 
       activeSectionIdx = targetIdx;
       const targetPage = SECTION_PAGES[targetIdx];
@@ -2862,10 +3010,16 @@
           }
         });
       } else {
-        // Continuous scroll mode - ensure all visible
-        SECTION_PAGES.forEach(p => {
+        // Continuous scroll mode - show unlocked sections up to maxUnlockedSectionIdx
+        SECTION_PAGES.forEach((p, idx) => {
           const el = document.getElementById(p.id);
-          if (el) el.classList.remove('hidden');
+          if (el) {
+            if (idx <= maxUnlockedSectionIdx) {
+              el.classList.remove('hidden');
+            } else {
+              el.classList.add('hidden');
+            }
+          }
         });
       }
 
@@ -2921,6 +3075,11 @@
     function scrollToBirthdaySection(targetId) {
       const foundIdx = SECTION_PAGES.findIndex(p => p.id === targetId);
       if (foundIdx !== -1) {
+        if (foundIdx > maxUnlockedSectionIdx) {
+          playLockedSound();
+          showStickerToast(`🔒 Level ${foundIdx + 1} (${SECTION_PAGES[foundIdx].short}) is locked! Complete Level ${foundIdx} first ✨`, '🔒');
+          return;
+        }
         goToSectionPage(foundIdx);
       }
     }
@@ -2931,17 +3090,35 @@
         e.preventDefault();
         const gotoIdx = btn.getAttribute('data-goto-page');
         if (gotoIdx !== null && gotoIdx !== undefined) {
-          goToSectionPage(parseInt(gotoIdx, 10));
+          const target = parseInt(gotoIdx, 10);
+          // Unlock target if moving forward
+          if (target > maxUnlockedSectionIdx) {
+            unlockSectionLevel(target, true);
+          }
+          goToSectionPage(target);
         }
       });
     });
 
-    // Attach click handlers to all nav jump buttons
+    // Attach click handlers to all nav jump buttons with shake on locked
     document.querySelectorAll('.nav-jump-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = btn.getAttribute('data-target');
-        if (targetId) scrollToBirthdaySection(targetId);
+        const foundIdx = SECTION_PAGES.findIndex(p => p.id === targetId);
+        if (foundIdx !== -1) {
+          if (foundIdx > maxUnlockedSectionIdx) {
+            playLockedSound();
+            btn.classList.remove('pill-locked-shake');
+            void btn.offsetWidth;
+            btn.classList.add('pill-locked-shake');
+            setTimeout(() => btn.classList.remove('pill-locked-shake'), 450);
+            const page = SECTION_PAGES[foundIdx];
+            showStickerToast(`🔒 Level ${foundIdx + 1} (${page.short}) is locked! Complete Level ${foundIdx} first ✨`, '🔒');
+            return;
+          }
+          goToSectionPage(foundIdx);
+        }
       });
     });
 
@@ -2982,14 +3159,25 @@
       if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
       if (!isPageWiseMode) return;
       if (e.key === 'ArrowRight') {
-        goToSectionPage((activeSectionIdx + 1) % SECTION_PAGES.length);
+        const nextIdx = activeSectionIdx + 1;
+        if (nextIdx < SECTION_PAGES.length) {
+          if (nextIdx > maxUnlockedSectionIdx) {
+            playLockedSound();
+            showStickerToast(`🔒 Complete Level ${activeSectionIdx + 1} first to unlock Level ${nextIdx + 1}! ✨`, '🔒');
+            return;
+          }
+          goToSectionPage(nextIdx);
+        }
       } else if (e.key === 'ArrowLeft') {
-        goToSectionPage((activeSectionIdx - 1 + SECTION_PAGES.length) % SECTION_PAGES.length);
+        if (activeSectionIdx > 0) {
+          goToSectionPage(activeSectionIdx - 1);
+        }
       }
     });
 
     // Initial page load setup
     updateViewModeUI();
+    updateNavLevelLockUI();
     goToSectionPage(0, false, false);
 
     // Theme Switcher (Starlight Midnight <-> Strawberry Daylight)
@@ -3121,6 +3309,11 @@
     function goToStorybookPage(targetPageIndex, playAudio = true) {
       if (targetPageIndex < 0) targetPageIndex = 0;
       if (targetPageIndex > 5) targetPageIndex = 5;
+
+      // Level Unlock Milestone: Turning storybook pages unlocks Level 6 (Adventure Compass)
+      if (targetPageIndex >= 1) {
+        unlockSectionLevel(5);
+      }
 
       currentStorybookPage = targetPageIndex;
 

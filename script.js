@@ -714,13 +714,73 @@
     // ==========================================
     // 1. ADVENTURE BOTTLE & SPINNING COMPASS
     // ==========================================
-    const DESTINATIONS = [
-      '✨ Destination: Sunset Coastal Roadtrip & Scenic Views ✨',
-      '🌸 Destination: Cozy Café Crawl & Sweet Bakery Treats ✨',
-      '🌊 Destination: Weekend Beach Getaway & Ocean Breeze ✨',
-      '📚 Destination: Peaceful Rainy-Day Bookshop & Hot Cocoa ✨',
-      '🌌 Destination: Stargazing Hilltop & Midnight Picnic ✨'
+    const ADVENTURE_DESTINATIONS = [
+      {
+        title: '✈️ GATE 0.00 KM • ZERO-KM AIRPORT REUNION',
+        details: 'The moment distance becomes 0 km: Luggage carried 100% by Jerry, giant running squeeze hug, and endless real-life laughs!',
+        route: "JERRY'S CITY ✈️ ➔ ROBIN'S CITY",
+        seat: 'VIP 01-A',
+        stamp: '★ STAMP: ZERO-KM PASS APPROVED ✈️ ★',
+        badge: '0.00 KM REUNION'
+      },
+      {
+        title: '🌸 TOKYO SAKURA & KAWAII CAFÉ TRAIL',
+        details: 'Walking hand-in-hand under cherry blossom trees, sweet strawberry matcha soft-serve, and studio photo booths!',
+        route: 'TOKYO // SHINJUKU & MEIJI',
+        seat: 'SUITE 02-B',
+        stamp: '★ STAMP: TOKYO SAKURA APPROVED 🌸 ★',
+        badge: 'CHERRY BLOSSOM'
+      },
+      {
+        title: '🏖️ TROPICAL SUNSET COAST & OCEAN BREEZE',
+        details: 'Warm ocean breeze, barefoot beach walks, iced mango boba, seashell hunting, and a starry midnight bonfire!',
+        route: 'PACIFIC COASTLINE // PIER 7',
+        seat: 'BEACH 03-A',
+        stamp: '★ STAMP: COASTAL GETAWAY 🌊 ★',
+        badge: 'SUNSET & SEASHELLS'
+      },
+      {
+        title: '📚 RAINY-DAY OLD TOWN BOOKSHOP & BAKERY',
+        details: 'Cozy armchairs by rainy windowpanes, warm cinnamon rolls, hot cocoa, and discovering secret paperbacks together!',
+        route: 'OLD TOWN // BOOK LANE 12',
+        seat: 'COZY 04-C',
+        stamp: '★ STAMP: COZY BOOKSTORE 📚 ★',
+        badge: 'HOT CHOCOLATE'
+      },
+      {
+        title: '🌌 HILLTOP STARGAZING & MIDNIGHT CAMPFIRE',
+        details: 'Warm blankets under millions of sparkling stars, roasting marshmallows, pointing out constellations, and quiet smiles!',
+        route: 'STARLIGHT PEAK // SUMMIT 9',
+        seat: 'OBSERVATORY 05',
+        stamp: '★ STAMP: STARGAZING HILL 🌌 ★',
+        badge: 'SHOOTING STARS'
+      },
+      {
+        title: '🎡 TWILIGHT THEME PARK & COTTON CANDY',
+        details: 'Breathtaking golden-hour sunset from the top of the Ferris wheel, winning Robin giant plushies, and carnival churros!',
+        route: 'WONDERLAND // WHEEL TOP',
+        seat: 'CARRIAGE 07',
+        stamp: '★ STAMP: THEME PARK PASS 🎡 ★',
+        badge: 'FERRIS WHEEL'
+      }
     ];
+
+    function playCompassClick(step = 0) {
+      if (appState.cinemaMuted) return;
+      try {
+        const ctx = ensureAudio();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520 + (step % 5) * 85, ctx.currentTime);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.04);
+      } catch (e) {}
+    }
 
     function openAdventureModal() {
       const adv = document.getElementById('adventureSection');
@@ -729,25 +789,72 @@
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'stars', 20);
     }
 
+    let compassSpinning = false;
     function spinAdventureCompass() {
-      appState.compassAngle += 720 + Math.floor(Math.random() * 360);
+      if (compassSpinning) return;
+      compassSpinning = true;
+      ensureAudio();
+
       const needle = document.getElementById('compassNeedleEl');
-      if (needle) needle.style.transform = 'rotate(' + appState.compassAngle + 'deg)';
-      playCelestaNote(783.99, 1.0, 0.2);
+      const pickIdx = Math.floor(Math.random() * ADVENTURE_DESTINATIONS.length);
+      const targetDeg = pickIdx * 60 + (Math.random() * 20 - 10);
+      appState.compassAngle += 1080 + targetDeg;
+
+      if (needle) {
+        needle.style.transform = `rotate(${appState.compassAngle}deg)`;
+      }
+
+      // Play mechanical clicks
+      for (let c = 0; c < 12; c++) {
+        setTimeout(() => {
+          playCompassClick(c);
+        }, c * 60);
+      }
+
       spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'stars', 25);
 
       setTimeout(() => {
-        const pick = DESTINATIONS[Math.floor(Math.random() * DESTINATIONS.length)];
-        const destEl = document.getElementById('compassDestinationText');
-        if (destEl) destEl.textContent = pick;
-        playCelestaNote(1046.50, 1.2, 0.22);
-      }, 750);
+        const dest = ADVENTURE_DESTINATIONS[pickIdx];
+        const titleEl = document.getElementById('compassDestTitle');
+        const detailsEl = document.getElementById('compassDestDetails');
+        const routeEl = document.getElementById('compassDestRoute');
+        const seatEl = document.getElementById('compassDestSeat');
+        const stampEl = document.getElementById('compassPassportStamp');
+        const destText = document.getElementById('compassDestinationText');
+
+        if (titleEl) titleEl.textContent = dest.title;
+        if (detailsEl) detailsEl.textContent = dest.details;
+        if (routeEl) routeEl.textContent = dest.route;
+        if (seatEl) seatEl.textContent = dest.seat;
+        if (stampEl) stampEl.textContent = dest.stamp;
+        if (destText) destText.textContent = `✨ Destination: ${dest.title} ✨`;
+
+        // Fanfare & celebration burst
+        [659.25, 783.99, 1046.50].forEach((n, i) => setTimeout(() => playCelestaNote(n, 1.2, 0.2), i * 110));
+        spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 30);
+        showStickerToast(`Adventure Stamped: ${dest.badge}! 🗺️✈️`, '🧭');
+        compassSpinning = false;
+      }, 1050);
     }
 
     const spinCompassTargetEl = document.getElementById('spinCompassTarget');
     if (spinCompassTargetEl) spinCompassTargetEl.addEventListener('click', spinAdventureCompass);
     const spinCompassBtnEl = document.getElementById('spinCompassBtn');
     if (spinCompassBtnEl) spinCompassBtnEl.addEventListener('click', spinAdventureCompass);
+
+    // Interactive Roadtrip Packing Checklist Taps
+    document.querySelectorAll('.checklist-item-row').forEach(row => {
+      row.addEventListener('click', () => {
+        ensureAudio();
+        row.classList.toggle('is-checked');
+        const checked = row.classList.contains('is-checked');
+        playCelestaNote(checked ? 880 : 587.33, 0.4, 0.12);
+        if (checked) {
+          const rect = row.getBoundingClientRect();
+          spawnRoomBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 'stars', 10);
+        }
+      });
+    });
 
     // ==========================================
     // 2. GRANTING STAR JAR & GOLD SCRATCH CARD
@@ -880,13 +987,126 @@
     }
 
     // ==========================================
-    // 3. HAPPINESS SUNSHINE LOCKET & VINYL
+    // 3. HAPPINESS SUNSHINE TURNTABLE & VINYL
     // ==========================================
+    const VINYL_TRACKS = [
+      {
+        name: "Robin's Birthday Melody 🌸",
+        bpm: 230,
+        notes: [523.25, 659.25, 783.99, 1046.50, 880.00, 783.99, 659.25, 587.33, 523.25, 659.25, 783.99, 1046.50, 1174.66, 1046.50, 880.00, 783.99]
+      },
+      {
+        name: "Golden Hour Sunshine ☀️",
+        bpm: 250,
+        notes: [392.00, 493.88, 587.33, 783.99, 659.25, 587.33, 493.88, 440.00, 392.00, 587.33, 783.99, 880.00, 783.99, 659.25, 587.33, 493.88]
+      },
+      {
+        name: "Miles Apart, Closest at Heart ✈️",
+        bpm: 270,
+        notes: [523.25, 659.25, 783.99, 698.46, 659.25, 587.33, 523.25, 440.00, 523.25, 587.33, 659.25, 783.99, 1046.50, 880.00, 783.99, 659.25]
+      }
+    ];
+
+    let activeVinylTrackIdx = 0;
+    let isVinylPlaying = false;
+    let vinylMelodyInterval = null;
+    let vinylNoteIdx = 0;
+
+    function startVinylPlayback(trackIndex = null) {
+      ensureAudio();
+      if (trackIndex !== null) {
+        activeVinylTrackIdx = trackIndex;
+        vinylNoteIdx = 0;
+      }
+      isVinylPlaying = true;
+
+      const disc = document.getElementById('vinylRecordDisc');
+      const tonearm = document.getElementById('tonearmAssembly');
+      const statusLed = document.getElementById('vinylStatusLed');
+      const playLabel = document.getElementById('vinylPlayLabel');
+      const playIcon = document.getElementById('vinylPlayIcon');
+      const eq = document.getElementById('equalizerVisualizer');
+      const nameDisp = document.getElementById('vinylTrackNameDisplay');
+
+      // Update button states on deck
+      document.querySelectorAll('.vinyl-track-btn').forEach((btn, idx) => {
+        if (idx === activeVinylTrackIdx) {
+          btn.classList.add('bg-[#FF477E]', 'text-white');
+          btn.classList.remove('bg-[#25172C]', 'text-[#FFA8BA]');
+        } else {
+          btn.classList.remove('bg-[#FF477E]', 'text-white');
+          btn.classList.add('bg-[#25172C]', 'text-[#FFA8BA]');
+        }
+      });
+
+      // Swing tonearm over record
+      if (tonearm) tonearm.classList.add('tonearm-playing');
+      // Spin record
+      if (disc) disc.classList.add('vinyl-is-spinning');
+      // Status LED
+      if (statusLed) {
+        statusLed.classList.remove('bg-gray-500');
+        statusLed.classList.add('bg-[#52B788]', 'shadow-[0_0_10px_#52B788]');
+      }
+      // Equalizer bars
+      if (eq) eq.classList.add('is-playing-eq');
+      if (playLabel) playLabel.textContent = 'Pause Turntable';
+      if (playIcon) playIcon.textContent = '⏸';
+      if (nameDisp) nameDisp.textContent = `PLAYING: ${VINYL_TRACKS[activeVinylTrackIdx].name}`;
+
+      // Needle drop chord
+      playCelestaNote(261.63, 0.4, 0.08);
+
+      // Start looping track melody
+      clearInterval(vinylMelodyInterval);
+      const track = VINYL_TRACKS[activeVinylTrackIdx];
+      vinylMelodyInterval = setInterval(() => {
+        if (!isVinylPlaying) return;
+        const note = track.notes[vinylNoteIdx];
+        playCelestaNote(note, 0.7, 0.15);
+        vinylNoteIdx = (vinylNoteIdx + 1) % track.notes.length;
+      }, track.bpm);
+
+      spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 25);
+      showStickerToast(`Now spinning: ${track.name}! 🎶`, '🌻');
+    }
+
+    function pauseVinylPlayback() {
+      isVinylPlaying = false;
+      clearInterval(vinylMelodyInterval);
+
+      const disc = document.getElementById('vinylRecordDisc');
+      const tonearm = document.getElementById('tonearmAssembly');
+      const statusLed = document.getElementById('vinylStatusLed');
+      const playLabel = document.getElementById('vinylPlayLabel');
+      const playIcon = document.getElementById('vinylPlayIcon');
+      const eq = document.getElementById('equalizerVisualizer');
+      const nameDisp = document.getElementById('vinylTrackNameDisplay');
+
+      if (tonearm) tonearm.classList.remove('tonearm-playing');
+      if (disc) disc.classList.remove('vinyl-is-spinning');
+      if (statusLed) {
+        statusLed.classList.remove('bg-[#52B788]', 'shadow-[0_0_10px_#52B788]');
+        statusLed.classList.add('bg-gray-500');
+      }
+      if (eq) eq.classList.remove('is-playing-eq');
+      if (playLabel) playLabel.textContent = 'Spin & Play Melody';
+      if (playIcon) playIcon.textContent = '▶';
+      if (nameDisp) nameDisp.textContent = 'TURNTABLE PAUSED';
+      playCelestaNote(440, 0.3, 0.06);
+    }
+
+    function toggleVinylPlayback() {
+      if (isVinylPlaying) {
+        pauseVinylPlayback();
+      } else {
+        startVinylPlayback();
+      }
+    }
+
     function triggerSunnyVinylShower() {
-      const notes = [523.25, 659.25, 783.99, 1046.50];
-      notes.forEach((n, i) => setTimeout(() => playCelestaNote(n, 1.1, 0.18), i * 140));
-      spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 45);
-      showStickerToast('Showering sweet flower petals for Robin! 🌸', '🌻');
+      ensureAudio();
+      toggleVinylPlayback();
     }
 
     function openHappinessModal() {
@@ -896,11 +1116,45 @@
     }
 
     const vinylRecordDiscEl = document.getElementById('vinylRecordDisc');
-    if (vinylRecordDiscEl) vinylRecordDiscEl.addEventListener('click', triggerSunnyVinylShower);
+    if (vinylRecordDiscEl) vinylRecordDiscEl.addEventListener('click', toggleVinylPlayback);
+
     const playSunnyChimeBtnEl = document.getElementById('playSunnyChimeBtn');
-    if (playSunnyChimeBtnEl) playSunnyChimeBtnEl.addEventListener('click', triggerSunnyVinylShower);
-    const showerPetalsFooterBtnEl = document.getElementById('showerPetalsFooterBtn');
-    if (showerPetalsFooterBtnEl) showerPetalsFooterBtnEl.addEventListener('click', triggerSunnyVinylShower);
+    if (playSunnyChimeBtnEl) playSunnyChimeBtnEl.addEventListener('click', toggleVinylPlayback);
+
+    // Track switcher buttons on deck
+    document.querySelectorAll('.vinyl-track-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const trackIdx = parseInt(btn.getAttribute('data-track'), 10) || 0;
+        startVinylPlayback(trackIdx);
+      });
+    });
+
+    // Preview track buttons on Side B
+    document.querySelectorAll('.preview-track-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const trackIdx = parseInt(btn.getAttribute('data-track'), 10) || 0;
+        startVinylPlayback(trackIdx);
+      });
+    });
+
+    // Petal shower buttons
+    const showerPetalsBtns = [
+      document.getElementById('showerSunnyPetalsBtn'),
+      document.getElementById('showerPetalsFooterBtn')
+    ];
+    showerPetalsBtns.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          ensureAudio();
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((n, i) => setTimeout(() => playCelestaNote(n, 1.1, 0.18), i * 120));
+          spawnRoomBurst(window.innerWidth * 0.5, window.innerHeight * 0.45, 'petals', 45);
+          showStickerToast('Showering sweet flower petals for Robin! 🌸', '🌻');
+        });
+      }
+    });
 
     /**************************************************************
      * 6B2. ROBIN'S BIRTHDAY GARDEN OF BLOSSOMS 🌸🌿

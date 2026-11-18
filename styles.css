@@ -966,6 +966,60 @@ body.light-theme .pillow-letter:nth-child(2n) {
   box-shadow: var(--shadow-hover);
 }
 
+/* ==========================================================
+   INTERACTIVE SUNSHINE TURNTABLE & VINYL RECORD STYLES
+   ========================================================== */
+.turntable-deck {
+  background: #180D1E;
+  border: 2px solid rgba(255, 130, 175, 0.45);
+  border-radius: 24px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), inset 0 0 25px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+body.light-theme .turntable-deck {
+  background: #FFFDFB;
+  border-color: #FCD5DC;
+  box-shadow: 0 14px 35px rgba(255, 71, 126, 0.12);
+}
+
+.turntable-platter {
+  width: 170px;
+  height: 170px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #2C1635 60%, #160B1B 100%);
+  border: 4px solid #E5A93C;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.75), 0 0 20px rgba(229, 169, 60, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vinyl-disc {
+  width: 154px;
+  height: 154px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #251829 16%, #130B17 32%, #201323 48%, #110914 68%, #1D1022 84%, #0D0710 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 4px 18px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.vinyl-disc:hover {
+  transform: scale(1.02);
+}
+
+.vinyl-is-spinning {
+  animation: spinVinyl 2.8s linear infinite !important;
+}
+
 .vinyl-disc-spin {
   animation: spinVinyl 6s linear infinite;
 }
@@ -973,6 +1027,140 @@ body.light-theme .pillow-letter:nth-child(2n) {
 @keyframes spinVinyl {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Mechanical Vintage Tonearm */
+.tonearm-assembly {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  width: 60px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.tonearm-rod {
+  transform-origin: 20px 20px;
+  transform: rotate(-18deg);
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.tonearm-playing .tonearm-rod {
+  transform: rotate(23deg) !important;
+}
+
+/* Live Equalizer Visualizer */
+.equalizer-bar {
+  display: inline-block;
+  width: 3.5px;
+  height: 12px;
+  background: #FF5C8A;
+  border-radius: 2px;
+  margin: 0 1.5px;
+  transition: height 0.1s ease;
+}
+
+.is-playing-eq .equalizer-bar:nth-child(1) { animation: eqBounce 0.45s ease-in-out infinite alternate; }
+.is-playing-eq .equalizer-bar:nth-child(2) { animation: eqBounce 0.65s ease-in-out infinite alternate 0.1s; }
+.is-playing-eq .equalizer-bar:nth-child(3) { animation: eqBounce 0.35s ease-in-out infinite alternate 0.2s; }
+.is-playing-eq .equalizer-bar:nth-child(4) { animation: eqBounce 0.55s ease-in-out infinite alternate 0.15s; }
+.is-playing-eq .equalizer-bar:nth-child(5) { animation: eqBounce 0.4s ease-in-out infinite alternate 0.05s; }
+
+@keyframes eqBounce {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+/* ==========================================================
+   ANTIQUE GOLDEN ADVENTURE COMPASS & BOARDING PASS STYLES
+   ========================================================== */
+.brass-compass-case {
+  width: 150px;
+  height: 150px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #25162E 55%, #15091B 100%);
+  border: 4px solid #E5A93C;
+  box-shadow: 0 0 30px rgba(229, 169, 60, 0.4), inset 0 0 25px rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brass-compass-case:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 40px rgba(229, 169, 60, 0.55), inset 0 0 25px rgba(0, 0, 0, 0.85);
+}
+
+body.light-theme .brass-compass-case {
+  background: radial-gradient(circle, #FFFFFF 55%, #FFF0F4 100%);
+  border-color: #D97706;
+  box-shadow: 0 6px 25px rgba(217, 119, 6, 0.25);
+}
+
+.boarding-pass-card {
+  background: #1B0D20;
+  border: 2px dashed rgba(255, 130, 175, 0.45);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+body.light-theme .boarding-pass-card {
+  background: #FFFDFB;
+  border-color: #FCD5DC;
+  box-shadow: 0 6px 20px rgba(255, 71, 126, 0.1);
+}
+
+.passport-stamp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #FFD166;
+  color: #FFD166;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  letter-spacing: 0.06em;
+  background: rgba(255, 209, 102, 0.1);
+}
+
+.checklist-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 130, 175, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.checklist-item-row:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 130, 175, 0.5);
+  transform: translateX(3px);
+}
+
+.checklist-item-row.is-checked {
+  background: rgba(82, 183, 136, 0.15);
+  border-color: rgba(82, 183, 136, 0.5);
+}
+
+.checklist-item-row.is-checked .check-box-indicator {
+  background: #52B788;
+  border-color: #52B788;
+  color: white;
 }
 
 /* Footer Label */

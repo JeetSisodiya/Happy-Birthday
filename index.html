@@ -354,12 +354,6 @@
 
       <!-- Quick Control Buttons -->
       <div class="flex items-center gap-1 shrink-0">
-        <!-- Quick Guide Toggle Pill -->
-        <button id="toggleGuideSectionBtn" type="button" class="nav-control-btn bg-[#FF4D6D] text-white hover:bg-[#FF3358]" title="Toggle How-To Guide Tips">
-          <span>💡</span>
-          <span id="guideToggleText" class="hidden sm:inline">Guide</span>
-        </button>
-
         <!-- View Mode Toggle Pill (Page-wise vs Full Scroll) -->
         <button id="viewModeToggleBtn" type="button" class="nav-control-btn bg-[#1C2C22] text-[#7CD4A6] border border-[#52B788] hover:bg-[#284032]" title="Toggle Page-by-Page Mode or Continuous Scroll Mode">
           <span id="viewModeToggleIcon">📑</span>
@@ -402,132 +396,7 @@
       </p>
     </section>
 
-    <!-- ==========================================================
-         ROBIN'S BIRTHDAY CELEBRATION GUIDE (HOW TO USE ALL SECTIONS)
-         Clean, cute, concise, not too detailed!
-         ========================================================== -->
-    <section id="celebrationGuideSection" class="max-w-4xl mx-auto mb-8 transition-all duration-300">
-      <div class="cloud-island-blob p-5 sm:p-6">
-        <div class="flex items-center justify-between mb-3 border-b border-[#3D2735] pb-2.5">
-          <div class="flex items-center gap-2.5">
-            <span class="text-2xl">🎈</span>
-            <div>
-              <h2 class="font-bold text-base sm:text-lg text-[#FFF4F7] leading-none">
-                How to Celebrate Robin’s Birthday ✨
-              </h2>
-              <p class="font-hand text-sm text-[#E5B6C3] mt-0.5">
-                Quick tips for all interactive sections — tap any card to jump right in!
-              </p>
-            </div>
-          </div>
-          <button id="collapseGuideBtn" type="button" class="text-xs font-semibold text-[#FF4D6D] hover:underline cursor-pointer">
-            Hide Tips ▲
-          </button>
-        </div>
 
-        <!-- 9 Quick Tips Grid -->
-        <div id="guideCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
-          <!-- 1. Cake -->
-          <div class="guide-item-card" data-target="birthdayCakeSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🎂</span>
-              <span class="font-bold text-xs text-[#FF4D6D]">1. Birthday Cake</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Blow out the 3 candles with your mic or button to trigger the emotional cinema story.
-            </p>
-          </div>
-
-          <!-- 2. Hug -->
-          <div class="guide-item-card" data-target="birthdayHugSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🤗</span>
-              <span class="font-bold text-xs text-[#68B080]">2. Birthday Hug</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Press & hold the soft pillow card to send Jerry warm hugs with fluttering hearts.
-            </p>
-          </div>
-
-          <!-- 3. Arcade -->
-          <div class="guide-item-card" data-target="sweetTreatArcadeSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🎮</span>
-              <span class="font-bold text-xs text-[#FF4D6D]">3. Treat Arcade</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Catch treats until 150 points to reveal the world’s cutest secret gift modal.
-            </p>
-          </div>
-
-          <!-- 4. Garden -->
-          <div class="guide-item-card" data-target="flowerGardenSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🌸</span>
-              <span class="font-bold text-xs text-[#68B080]">4. Blossom Garden</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Tap blossoms to arrange a vase bouquet with pentatonic chimes & sweet blessing notes.
-            </p>
-          </div>
-
-          <!-- 5. Storybook Front & Back -->
-          <div class="guide-item-card" data-target="memoryBookSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">📖</span>
-              <span class="font-bold text-xs text-[#FF4D6D]">5. Memory Scrapbook</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Flip through 3 sheets with unique front and back pages, secret letters & vouchers.
-            </p>
-          </div>
-
-          <!-- 6. Adventure -->
-          <div class="guide-item-card" data-target="adventureSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🧭</span>
-              <span class="font-bold text-xs text-[#68B080]">6. Adventure Compass</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Spin the compass to pick Robin's next travel destination & read the roadtrip note.
-            </p>
-          </div>
-
-          <!-- 7. Star & Scratch -->
-          <div class="guide-item-card" data-target="grantingSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">✨</span>
-              <span class="font-bold text-xs text-[#FF4D6D]">7. Star & Scratch</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Fold your wish into an origami star, then rub off the gold foil to read Jerry's note.
-            </p>
-          </div>
-
-          <!-- 8. Sunshine Vinyl -->
-          <div class="guide-item-card" data-target="happinessSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🌻</span>
-              <span class="font-bold text-xs text-[#68B080]">8. Sunshine Vinyl</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Tap the retro sunshine record to spin chords & shower flower petals across the screen.
-            </p>
-          </div>
-
-          <!-- 9. Capsule Machine -->
-          <div class="guide-item-card" data-target="birthdayCapsuleSection">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-base">🪙</span>
-              <span class="font-bold text-xs text-[#FF4D6D]">9. Capsule Machine</span>
-            </div>
-            <p class="text-xs text-[#E5B6C3] leading-snug">
-              Turn the crank to roll lucky birthday capsules and collect all 8 cute charm badges.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ==========================================================
          CENTERPIECE: BIRTHDAY CAKE & WISH CANDLES

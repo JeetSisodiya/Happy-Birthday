@@ -433,32 +433,6 @@ body.light-theme .nav-jump-btn:hover {
   box-shadow: 0 0 16px rgba(255, 71, 126, 0.55) !important;
 }
 
-.guide-item-card {
-  background: #1C1021;
-  border: 1.5px solid var(--border-card);
-  border-radius: 14px;
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.guide-item-card:hover {
-  background: #2B1630;
-  border-color: var(--pink-border);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-}
-
-body.light-theme .guide-item-card {
-  background: #FFF9FA;
-  border-color: #FFCCD9;
-}
-
-body.light-theme .guide-item-card:hover {
-  background: #FFF0F4;
-  border-color: var(--pink-primary);
-}
-
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -2945,15 +2945,6 @@
       });
     });
 
-    // Attach click handlers to all guide item cards
-    document.querySelectorAll('.guide-item-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = card.getAttribute('data-target');
-        if (targetId) scrollToBirthdaySection(targetId);
-      });
-    });
-
     // View Mode Toggle (Page-wise vs Full Scroll)
     const viewModeToggleBtn = document.getElementById('viewModeToggleBtn');
     const viewModeToggleIcon = document.getElementById('viewModeToggleIcon');
@@ -3000,36 +2991,6 @@
     // Initial page load setup
     updateViewModeUI();
     goToSectionPage(0, false, false);
-
-    // Guide section collapse / toggle
-    const toggleGuideBtn = document.getElementById('toggleGuideSectionBtn');
-    const collapseGuideBtn = document.getElementById('collapseGuideBtn');
-    const guideSection = document.getElementById('celebrationGuideSection');
-    const guideCardsGrid = document.getElementById('guideCardsGrid');
-    const guideToggleText = document.getElementById('guideToggleText');
-
-    let isGuideCollapsed = false;
-
-    function toggleCelebrationGuide() {
-      if (!guideCardsGrid || !collapseGuideBtn) return;
-      isGuideCollapsed = !isGuideCollapsed;
-      if (isGuideCollapsed) {
-        guideCardsGrid.classList.add('hidden');
-        collapseGuideBtn.textContent = 'Show Tips ▼';
-        if (guideToggleText) guideToggleText.textContent = 'Show Guide';
-      } else {
-        guideCardsGrid.classList.remove('hidden');
-        collapseGuideBtn.textContent = 'Hide Tips ▲';
-        if (guideToggleText) guideToggleText.textContent = 'Quick Guide';
-        if (guideSection) {
-          guideSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }
-      playCelestaNote(587.33, 0.6, 0.12);
-    }
-
-    if (toggleGuideBtn) toggleGuideBtn.addEventListener('click', toggleCelebrationGuide);
-    if (collapseGuideBtn) collapseGuideBtn.addEventListener('click', toggleCelebrationGuide);
 
     // Theme Switcher (Starlight Midnight <-> Strawberry Daylight)
     const themeToggleBtn = document.getElementById('themeToggleBtn');

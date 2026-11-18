@@ -2874,9 +2874,12 @@
         const tId = btn.getAttribute('data-target');
         if (tId === targetPage.id) {
           btn.classList.add('active-nav-pill');
-          // Center the active pill smoothly inside the horizontal scrollable bar
+          // Center the active pill smoothly if the horizontal bar overflows
           try {
-            btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            const navContainer = btn.parentElement;
+            if (navContainer && navContainer.scrollWidth > navContainer.clientWidth) {
+              btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
           } catch (err) {}
         } else {
           btn.classList.remove('active-nav-pill');

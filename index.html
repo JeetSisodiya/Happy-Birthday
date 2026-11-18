@@ -317,12 +317,12 @@
 
   <!-- ==========================================================
        STICKY QUICK NAVIGATION BAR
-       Smooth jump to all 8 interactive birthday sections
+       Smooth jump to all 9 interactive birthday sections
        ========================================================== -->
   <nav class="sticky top-2 z-40 max-w-5xl mx-auto px-4 mb-3 select-none" aria-label="Birthday Sections Navigation">
-    <div class="quick-nav-pill-bar p-1.5 sm:p-2 rounded-full flex items-center justify-between gap-2 shadow-xl">
+    <div class="quick-nav-pill-bar p-1.5 sm:p-2 rounded-full flex items-center justify-between gap-1.5 sm:gap-2 shadow-xl">
       <!-- Horizontal Scrollable Jump Links -->
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 px-1 flex-1">
+      <div class="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 px-0.5 flex-1">
         <button type="button" class="nav-jump-btn" data-target="birthdayCakeSection" title="Jump to Cake & Candles">
           <span>🎂</span><span>Cake</span>
         </button>
@@ -352,23 +352,26 @@
         </button>
       </div>
 
-      <!-- Quick Guide Toggle Pill -->
-      <button id="toggleGuideSectionBtn" type="button" class="die-cut-sticker px-3.5 py-1.5 text-xs font-bold shrink-0 flex items-center gap-1.5 bg-[#FF4D6D] text-white border-none shadow-sm cursor-pointer hover:bg-[#FF3358]" title="Toggle How-To Guide Tips">
-        <span>💡</span>
-        <span id="guideToggleText">Quick Guide</span>
-      </button>
+      <!-- Quick Control Buttons -->
+      <div class="flex items-center gap-1 shrink-0">
+        <!-- Quick Guide Toggle Pill -->
+        <button id="toggleGuideSectionBtn" type="button" class="nav-control-btn bg-[#FF4D6D] text-white hover:bg-[#FF3358]" title="Toggle How-To Guide Tips">
+          <span>💡</span>
+          <span id="guideToggleText" class="hidden sm:inline">Guide</span>
+        </button>
 
-      <!-- View Mode Toggle Pill (Page-wise vs Full Scroll) -->
-      <button id="viewModeToggleBtn" type="button" class="die-cut-sticker px-3 py-1.5 text-xs font-bold shrink-0 flex items-center gap-1.5 bg-[#1C2C22] text-[#7CD4A6] border border-[#52B788] shadow-sm cursor-pointer hover:bg-[#284032]" title="Toggle Page-by-Page Mode or Continuous Scroll Mode">
-        <span id="viewModeToggleIcon">📑</span>
-        <span id="viewModeToggleLabel">Page Mode</span>
-      </button>
+        <!-- View Mode Toggle Pill (Page-wise vs Full Scroll) -->
+        <button id="viewModeToggleBtn" type="button" class="nav-control-btn bg-[#1C2C22] text-[#7CD4A6] border border-[#52B788] hover:bg-[#284032]" title="Toggle Page-by-Page Mode or Continuous Scroll Mode">
+          <span id="viewModeToggleIcon">📑</span>
+          <span id="viewModeToggleLabel" class="hidden sm:inline">Page Mode</span>
+        </button>
 
-      <!-- Theme Switcher Pill -->
-      <button id="themeToggleBtn" type="button" class="die-cut-sticker px-3 py-1.5 text-xs font-bold shrink-0 flex items-center gap-1.5 bg-[#2B1630] text-[#FFA8BA] border border-[rgba(255,130,175,0.4)] shadow-sm cursor-pointer hover:bg-[#3D1E42]" title="Toggle Starlight Midnight / Strawberry Daylight Theme">
-        <span id="themeToggleIcon">🌙</span>
-        <span id="themeToggleLabel">Theme</span>
-      </button>
+        <!-- Theme Switcher Pill -->
+        <button id="themeToggleBtn" type="button" class="nav-control-btn bg-[#2B1630] text-[#FFA8BA] border border-[rgba(255,130,175,0.4)] hover:bg-[#3D1E42]" title="Toggle Starlight Midnight / Strawberry Daylight Theme">
+          <span id="themeToggleIcon">🌙</span>
+          <span id="themeToggleLabel" class="hidden sm:inline">Theme</span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -920,23 +923,23 @@
         </div>
 
         <!-- The Flower Vase Showcase -->
-        <div class="bg-[#FAF8F5] rounded-3xl p-6 border border-[#ECE5E1] flex flex-col items-center mb-6 relative overflow-hidden">
+        <div class="bg-[#FAF8F5] rounded-3xl p-4 sm:p-5 border border-[#ECE5E1] flex flex-col items-center mb-4 relative overflow-hidden">
           
           <!-- Subtle Floating Background Aura -->
-          <div class="absolute inset-0 bg-gradient-to-t from-[#FFF0F3]/40 via-transparent to-[#EFF6F1]/30 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-[#FF477E]/10 via-transparent to-[#48B47E]/10 pointer-events-none"></div>
 
           <!-- Ceramic Birthday Vase Stage -->
-          <div class="relative w-64 h-52 flex flex-col items-center justify-end select-none my-2">
+          <div class="relative w-60 h-44 flex flex-col items-center justify-end select-none my-1">
             
             <!-- Blooming Stems & Flowers Container (Placed into vase) -->
-            <div id="vaseFlowersContainer" class="absolute bottom-16 inset-x-0 h-36 flex items-end justify-center pointer-events-none z-10 transition-all duration-500">
-              <p id="emptyVaseHint" class="font-hand text-lg text-[#5C5055]/70 mb-4 animate-pulse text-center">
+            <div id="vaseFlowersContainer" class="absolute bottom-14 inset-x-0 h-32 flex items-end justify-center pointer-events-none z-10 transition-all duration-500">
+              <p id="emptyVaseHint" class="font-hand text-base sm:text-lg text-[#FFA8BA] mb-3 animate-pulse text-center">
                 🌷 Tap the flowers below to arrange Robin’s bouquet...
               </p>
             </div>
 
             <!-- Handcrafted Ceramic Vase SVG -->
-            <svg viewBox="0 0 160 140" class="w-40 h-36 relative z-20 filter drop-shadow-md">
+            <svg viewBox="0 0 160 140" class="w-36 h-32 relative z-20 filter drop-shadow-md">
               <defs>
                 <linearGradient id="ceramicVaseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#FFFFFF" />
@@ -949,7 +952,7 @@
               </defs>
 
               <!-- Vase Shadow Base -->
-              <ellipse cx="80" cy="132" rx="36" ry="6" fill="#1C1518" opacity="0.08" />
+              <ellipse cx="80" cy="132" rx="36" ry="6" fill="#1C1518" opacity="0.12" />
 
               <!-- Vase Body Silhouette -->
               <path d="M52 28 C42 45 32 75 38 108 C42 124 55 130 80 130 C105 130 118 124 122 108 C128 75 118 45 108 28 Z" fill="url(#ceramicVaseGrad)" stroke="#ECE5E1" stroke-width="2.5" />
@@ -976,47 +979,47 @@
 
           <!-- Status / Bouquet Count Pill -->
           <div class="flex items-center gap-2 mt-1">
-            <span id="bouquetCountBadge" class="px-3.5 py-1 rounded-full bg-white text-[#FF5C8A] text-xs font-bold border border-[#FCD5DC] shadow-xs">
+            <span id="bouquetCountBadge" class="px-3 py-1 rounded-full bg-[#25172C] text-[#FFA8BA] text-xs font-bold border border-[#FF7597]/40 shadow-xs">
               0 of 6 Flowers in Vase 💐
             </span>
-            <button id="bloomAllBouquetBtn" type="button" class="die-cut-sticker px-3.5 py-1 bg-[#EFF6F1] text-[#95D5B2] text-xs font-bold border border-[#D2E4D7] hover:bg-[#E3EFE6] cursor-pointer">
+            <button id="bloomAllBouquetBtn" type="button" class="die-cut-sticker px-3.5 py-1 bg-[#172C20] text-[#7CD4A6] text-xs font-bold border border-[#52B788]/50 hover:bg-[#203D2C] cursor-pointer">
               ✨ Bloom All 6 Flowers
             </button>
           </div>
         </div>
 
         <!-- 6 Interactive Pickable Botanical Flowers -->
-        <div class="mb-6">
-          <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#5C5055] mb-2.5 px-1">
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-[#5C5055] mb-2 px-1">
             <span>🌿 Tap any flower to pluck & add to Robin's vase:</span>
             <span class="text-[11px] text-[#52B788]">Plays Chimes 🎶</span>
           </div>
 
-          <div id="flowersButtonsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div id="flowersButtonsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
             <!-- Dynamically populated with 6 interactive flower buttons -->
           </div>
         </div>
 
         <!-- The Active Blessing Letter Card -->
-        <div id="activeBlessingCard" class="w-full bg-[#FFFDFB] rounded-2xl border-2 border-dashed border-[#FCD5DC] p-5 shadow-sm text-left relative overflow-hidden transition-all duration-300">
-          <div class="flex items-center justify-between border-b border-[#FCD5DC] pb-2.5 mb-2.5">
+        <div id="activeBlessingCard" class="w-full bg-[#FFFDFB] rounded-2xl border-2 border-dashed border-[#FF7597]/40 p-4 shadow-sm text-left relative overflow-hidden transition-all duration-300">
+          <div class="flex items-center justify-between border-b border-[#FF7597]/25 pb-2 mb-2">
             <div class="flex items-center gap-2">
               <span id="blessingFlowerIcon" class="text-2xl">🌸</span>
               <div>
                 <h4 id="blessingFlowerName" class="font-bold text-xs uppercase tracking-wide text-[#FF5C8A]">
                   Blushing Cherry Blossom
                 </h4>
-                <p id="blessingFlowerTitle" class="text-[11px] font-semibold text-[#5C5055]">
+                <p id="blessingFlowerTitle" class="text-[11px] font-semibold text-[#FFA8BA]">
                   Blessing of Gentle Peace & Serenity
                 </p>
               </div>
             </div>
-            <span class="px-2.5 py-0.5 rounded-full bg-[#FFF0F3] text-[#FF5C8A] text-[10px] font-bold border border-[#FCD5DC]">
+            <span class="px-2.5 py-0.5 rounded-full bg-[#341628] text-[#FFA8BA] text-[10px] font-bold border border-[#FF7597]/40">
               BIRTHDAY BLESSING 💌
             </span>
           </div>
 
-          <p id="blessingFlowerText" class="font-hand text-xl sm:text-2xl text-[#1C1518] leading-snug">
+          <p id="blessingFlowerText" class="font-hand text-lg sm:text-xl text-[#FFF4F7] leading-snug">
             “May this year wrap you in effortless peace, quiet mornings with favorite teas, soft breezes that take all stress away, and peaceful sleep every single night.”
           </p>
 
@@ -2589,9 +2592,9 @@
   </div>
 
   <!-- Toast Notification Pill -->
-  <div id="stickerToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[120] pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
-    <div class="die-cut-sticker px-5 py-2.5 bg-white text-[#1C1518] border border-[#ECE5E1] font-semibold text-xs sm:text-sm shadow-xl flex items-center gap-2">
-      <span id="stickerToastIcon">✨</span>
+  <div id="stickerToast" class="fixed bottom-7 left-1/2 -translate-x-1/2 z-[120] pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+    <div class="toast-pill-box px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm shadow-2xl flex items-center gap-2.5">
+      <span id="stickerToastIcon" class="text-base">✨</span>
       <span id="stickerToastMsg">Wish saved!</span>
     </div>
   </div>
